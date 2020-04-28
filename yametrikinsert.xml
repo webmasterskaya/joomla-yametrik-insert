@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.9" type="plugin" group="system" method="upgrade">
+    <name>PLG_SYSTEM_YAMETRIKINSERT</name>
+    <author>Artem Vasilev - Webmasterskaya</author>
+    <creationDate>24.04.2020</creationDate>
+    <copyright>Copyright (C) 2020 Webmasterskaya. All rights reserved.</copyright>
+    <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
+    <authorEmail>dev@webmasterskaya.xyz</authorEmail>
+    <authorUrl>https://webmasterskaya.xyz</authorUrl>
+    <description>PLG_SYSTEM_YAMETRIKINSERT_DESCRIPTION</description>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_yametrikinsert.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_yametrikinsert.sys.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_system_yametrikinsert.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_system_yametrikinsert.sys.ini</language>
+    </languages>
+    <files>
+        <filename plugin="yametrikinsert">yametrikinsert.php</filename>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        type="text"
+                        name="yametrik_id"
+                        label="Номер счетчика"
+                />
+                <field
+                        type="radio"
+                        name="yametrik_webvisor"
+                        label="Вебвизор"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_clickmap"
+                        label="Карта кликов"
+                        class="btn-group btn-group-yesno"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_trackHash"
+                        label="Отслеживать хеш в адресной строке браузера"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_trackLinks"
+                        label="Отслеживать переходы по внешним ссылкам"
+                        class="btn-group btn-group-yesno"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_ecommerce"
+                        label="Электронная коммерция"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="text"
+                        name="yametrik_ecommerce_container"
+                        label="Имя контейнера данных"
+                        default="dataLayer"
+                        showon="yametrik_ecommerce:1"
+                />
+                <field
+                        type="radio"
+                        name="yametrik_defer"
+                        label="Автоматическая отправка данных при инициализации"
+                        class="btn-group btn-group-yesno"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_accurateTrackBounce"
+                        label="Точный показатель отказов"
+                        class="btn-group btn-group-yesno"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="2">Задержка</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="number"
+                        min="0"
+                        step="1"
+                        name="yametrik_accurateTrackBounce_delay"
+                        label="Cобытие о неотказе засчитывается через (мс)"
+                        default="15000"
+                        showon="yametrik_accurateTrackBounce:2"
+                />
+                <field
+                        type="radio"
+                        name="yametrik_childIframe"
+                        label="Запись содержимого iframe"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_admin"
+                        label="Отключить для Администратора"
+                        class="btn-group btn-group-yesno"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="yametrik_js"
+                        type="editor"
+                        label="JavaScript-код"
+                        description=""
+                        editor="codemirror|none"
+                        syntax="js"
+                        buttons="false"
+                        filter="raw"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
