@@ -17,6 +17,11 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			return false;
 		}
 
+		if ($this->app->input->getCmd('option') == 'com_ajax')
+		{
+			return false;
+		}
+
 		if (empty($this->params->get('yametrik_id', '')))
 		{
 			return false;
