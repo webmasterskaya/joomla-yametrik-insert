@@ -120,7 +120,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
                 p = typeof p !== 'undefined' ? p : undefined;
                 b = typeof b !== 'undefined' ? b : undefined;
                 if (typeof ym == 'function') {
-                    window.ym(<?php echo $counter; ?>, "reachGoal", target, params, callback, ctx)
+                    window.ym(<?php echo $counter; ?>, "reachGoal", t, p, b)
                 } else {
                     window.setTimeout(function () {
                         window.goalSender(t, p, b);
@@ -128,12 +128,8 @@ class PlgSystemYametrikInsert extends CMSPlugin
                 }
             };
             window.hitSender = function (u, o) {
-                u = typeof p !== 'undefined' ? u : undefined;
-                o = typeof b !== 'undefined' ? o : [];
-
-                if (!u) {
-                    return;
-                }
+                u = typeof u !== 'undefined' ? u : location.href;
+                o = typeof o !== 'undefined' ? o : [];
 
                 if (typeof ym == 'function') {
                     window.ym(<?php echo $counter; ?>, "hit", u, o);
@@ -286,7 +282,6 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		// Set dataLayer container for ecommerce
 		if ($this->params->get('yametrik_ecommerce', 0))
 		{
-			var_dump('window.' . $this->params->get('yametrik_ecommerce_container', 'dataLayer'));
 			$document->addScriptDeclaration('window.' . $this->params->get('yametrik_ecommerce_container', 'dataLayer') . ' = window.' . $this->params->get('yametrik_ecommerce_container', 'dataLayer') . ' || [];');
 		}
 
