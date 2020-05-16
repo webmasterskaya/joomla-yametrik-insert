@@ -7,7 +7,7 @@
     <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
     <authorEmail>dev@webmasterskaya.xyz</authorEmail>
     <authorUrl>https://webmasterskaya.xyz</authorUrl>
-    <version>__DEPLOY_VERSION__</version>
+    <version>1.0.0-beta</version>
     <description>PLG_SYSTEM_YAMETRIKINSERT_DESCRIPTION</description>
     <languages folder="language">
         <language tag="en-GB">en-GB/en-GB.plg_system_yametrikinsert.ini</language>
