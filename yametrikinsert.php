@@ -66,32 +66,8 @@ class PlgSystemYametrikInsert extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		// Do not embed in admin panel.
-		if ($this->app->isClient('administrator'))
-		{
-			return false;
-		}
-
-		// Do not embed in com_ajax.
-		if ($this->app->input->getCmd('option') == 'com_ajax')
-		{
-			return false;
-		}
-
-		// Do not embed  if the metrika identifier is not specified.
-		if (empty($this->params->get('yametrik_id', '')))
-		{
-			return false;
-		}
-
-		// Do not embed on preview page of page builder (supported YooTheme, SP:PB, JD:PB).
-		if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
-		{
-			return false;
-		}
-
-		// Do not embed for admin.
-		if ($this->params->get('yametrik_admin', 0) && $this->isAuthorizedAdmin())
+		// Check allowing for embed metrika
+		if (!$this->allowMetrika())
 		{
 			return false;
 		}
@@ -104,7 +80,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			'trackHash'           => $this->params->get('yametrik_trackHash', 0) ? true : false,
 			'trackLinks'          => $this->params->get('yametrik_trackLinks', 0) ? true : false,
 			'ecommerce'           => $this->params->get('yametrik_ecommerce',
-				0) ? $this->params->get('yametrik_ecommerce',
+				0) ? $this->params->get('yametrik_ecommerce_container',
 				'dataLayer') : false,
 			'defer'               => $this->params->get('yametrik_defer', 0) ? true : false,
 			'accurateTrackBounce' => $this->params->get('yametrik_yametrik_accurateTrackBounce',
@@ -117,10 +93,6 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		{
 			$yaParams['params']['ip'] = $_SERVER['REMOTE_ADDR'];
 		}
-
-		/** @var \Joomla\CMS\Document\Document $document */
-		$document = Factory::getDocument();
-		$document->addCustomTag('<link rel="preconnect" href="https://mc.yandex.ru/">');
 
 		$counter = trim($this->params->get('yametrik_id'));
 
@@ -170,6 +142,48 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		$body = str_replace("</body>", $metrika . "</body>", $body);
 
 		$this->app->setBody($body);
+
+		return true;
+	}
+
+	/**
+	 * Method for checks allowing to embed metrika
+	 * @return bool
+	 *
+	 *
+	 * @since 1.0.0
+	 */
+	protected function allowMetrika()
+	{
+		// Do not embed in admin panel.
+		if ($this->app->isClient('administrator'))
+		{
+			return false;
+		}
+
+		// Do not embed in com_ajax.
+		if ($this->app->input->getCmd('option') == 'com_ajax')
+		{
+			return false;
+		}
+
+		// Do not embed  if the metrika identifier is not specified.
+		if (empty($this->params->get('yametrik_id', '')))
+		{
+			return false;
+		}
+
+		// Do not embed on preview page of page builder (supported YooTheme, SP:PB, JD:PB).
+		if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
+		{
+			return false;
+		}
+
+		// Do not embed for admin.
+		if ($this->params->get('yametrik_admin', 0) && $this->isAuthorizedAdmin())
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -231,5 +245,35 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		}
 
 		return $this->_isAuthorizedAdmin;
+	}
+
+	/**
+	 * Method for insert scripts and custom tags to head section.
+	 * @return bool
+	 *
+	 *
+	 * @since 1.0.0
+	 */
+	public function onBeforeCompileHead()
+	{
+		// Check allowing for embed metrika
+		if (!$this->allowMetrika())
+		{
+			return false;
+		}
+
+		// Speed up script loading
+		/** @var \Joomla\CMS\Document\Document $document */
+		$document = Factory::getDocument();
+		$document->addCustomTag('<link rel="preconnect" href="https://mc.yandex.ru/">');
+
+		// Set dataLayer container for ecommerce
+		if ($this->params->get('yametrik_ecommerce', 0))
+		{
+			var_dump('window.' . $this->params->get('yametrik_ecommerce_container', 'dataLayer'));
+			$document->addScriptDeclaration('window.' . $this->params->get('yametrik_ecommerce_container', 'dataLayer') . ' = window.' . $this->params->get('yametrik_ecommerce_container', 'dataLayer') . ' || [];');
+		}
+
+		return true;
 	}
 }
