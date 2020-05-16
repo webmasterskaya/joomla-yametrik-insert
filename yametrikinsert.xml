@@ -173,14 +173,12 @@
                         label="PLG_SYSTEM_YAMETRIKINSERT_GOAL_NOTE_LABEL"
                         description="PLG_SYSTEM_YAMETRIKINSERT_GOAL_NOTE_DESCRIPTION"
                         class="alert alert-info"
-                        showon="yametrik_ecommerce:1"
                 />
                 <field
                         type="note"
                         label="PLG_SYSTEM_YAMETRIKINSERT_HIT_NOTE_LABEL"
                         description="PLG_SYSTEM_YAMETRIKINSERT_HIT_NOTE_DESCRIPTION"
                         class="alert alert-info"
-                        showon="yametrik_ecommerce:1"
                 />
             </fieldset>
         </fields>
