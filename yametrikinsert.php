@@ -8,6 +8,7 @@
  * @link       https://webmasterskaya.xyz/
  */
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -15,44 +16,87 @@ defined('_JEXEC') or die;
 
 class PlgSystemYametrikInsert extends CMSPlugin
 {
-
+	/**
+	 * Loads the application object.
+	 *
+	 * @var  CMSApplication
+	 *
+	 * @since  1.0.0
+	 */
 	protected $app = null;
+
+	/**
+	 * Loads the database object.
+	 *
+	 * @var  JDatabaseDriver
+	 *
+	 * @since  1.0.0
+	 */
 	protected $db = null;
 
+	/**
+	 * Is visitor authorized in control panel.
+	 *
+	 * @var  boolean
+	 *
+	 * @since  1.0.0
+	 */
 	protected $_isAuthorizedAdmin = null;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param   object  &$subject
+	 * @param   array    $config
+	 *
+	 *
+	 * @since 1.0.0
+	 */
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 	}
 
+	/**
+	 * Embed the Yandex.Metrika on page.
+	 * @return bool
+	 *
+	 *
+	 * @since 1.0.0
+	 */
 	public function onAfterRender()
 	{
+		// Do not embed in admin panel.
 		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
+		// Do not embed in com_ajax.
 		if ($this->app->input->getCmd('option') == 'com_ajax')
 		{
 			return false;
 		}
 
+		// Do not embed  if the metrika identifier is not specified.
 		if (empty($this->params->get('yametrik_id', '')))
 		{
 			return false;
 		}
 
+		// Do not embed on preview page of page builder (supported YooTheme, SP:PB, JD:PB).
 		if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
 		{
 			return false;
 		}
 
+		// Do not embed for admin.
 		if ($this->params->get('yametrik_admin', 0) && $this->isAuthorizedAdmin())
 		{
 			return false;
 		}
 
+		// Prepare array of params.
 		$yaParams = [
 			'triggerEvent'        => true,
 			'webvisor'            => $this->params->get('yametrik_webvisor', 0) ? true : false,
@@ -68,11 +112,13 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			'childIframe'         => $this->params->get('yametrik_childIframe', 0) ? true : false,
 		];
 
+		/** @var \Joomla\CMS\Document\Document $document */
 		$document = Factory::getDocument();
 		$document->addCustomTag('<link rel="preconnect" href="https://mc.yandex.ru/">');
 
 		$counter = trim($this->params->get('yametrik_id'));
 
+		// Prepare full embed code.
 		ob_start();
 		?>
         <!-- YaMetrikInsert plugin -->
@@ -113,6 +159,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 
 		$metrika = ob_get_clean();
 
+		// Embed the code before the closing tag </body>.
 		$body = $this->app->getBody();
 		$body = str_replace("</body>", $metrika . "</body>", $body);
 
@@ -121,6 +168,18 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		return true;
 	}
 
+	/**
+	 * Method to check  is visitor authorized in control panel.
+	 *
+	 * @return  bool True if authorized administrator, False if is not.
+	 *
+	 *
+	 * @since      1.0.0
+	 *
+	 * @copyright  Copyright (c) 2018 - 2020 Septdir Workshop. All rights reserved.
+	 * @author     Septdir Workshop - www.septdir.com
+	 * @link       https://www.septdir.com/
+	 */
 	protected function isAuthorizedAdmin()
 	{
 		if ($this->_isAuthorizedAdmin === null)
