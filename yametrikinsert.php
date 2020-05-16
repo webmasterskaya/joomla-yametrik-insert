@@ -126,6 +126,22 @@ class PlgSystemYametrikInsert extends CMSPlugin
                         window.goalSender(t, p, b);
                     }, 300);
                 }
+            };
+            window.hitSender = function (u, o) {
+                u = typeof p !== 'undefined' ? u : undefined;
+                o = typeof b !== 'undefined' ? o : [];
+
+                if (!u) {
+                    return;
+                }
+
+                if (typeof ym == 'function') {
+                    window.ym(<?php echo $counter; ?>, "hit", u, o);
+                } else {
+                    window.setTimeout(function () {
+                        window.hitSender(u, o);
+                    }, 300);
+                }
             }
         </script>
         <noscript>
