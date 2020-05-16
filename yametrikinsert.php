@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class PlgSystemYametrikInsert extends CMSPlugin
 {
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  1.0.0
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Loads the application object.
 	 *
 	 * @var  CMSApplication
