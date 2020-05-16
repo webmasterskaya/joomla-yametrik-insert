@@ -82,7 +82,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			'ecommerce'           => $this->params->get('yametrik_ecommerce',
 				0) ? $this->params->get('yametrik_ecommerce_container',
 				'dataLayer') : false,
-			'defer'               => $this->params->get('yametrik_defer', 0) ? true : false,
+			'defer'               => $this->params->get('yametrik_defer', 0) ? false : true,
 			'accurateTrackBounce' => $this->params->get('yametrik_yametrik_accurateTrackBounce',
 				0) ? $this->params->get('yametrik_accurateTrackBounce_delay', 15000) : false,
 			'childIframe'         => $this->params->get('yametrik_childIframe', 0) ? true : false,
