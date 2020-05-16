@@ -124,6 +124,15 @@
                     <option value="0">JNO</option>
                 </field>
                 <field
+                        type="radio"
+                        name="yametrik_send_ip"
+                        label="Передавать IP клиента"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
                         name="yametrik_js"
                         type="editor"
                         label="JavaScript-код"

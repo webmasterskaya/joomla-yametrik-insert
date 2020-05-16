@@ -112,6 +112,12 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			'childIframe'         => $this->params->get('yametrik_childIframe', 0) ? true : false,
 		];
 
+		// Send client IP
+		if ($this->params->get('yametrik_send_ip', 0))
+		{
+			$yaParams['params']['ip'] = $_SERVER['REMOTE_ADDR'];
+		}
+
 		/** @var \Joomla\CMS\Document\Document $document */
 		$document = Factory::getDocument();
 		$document->addCustomTag('<link rel="preconnect" href="https://mc.yandex.ru/">');
