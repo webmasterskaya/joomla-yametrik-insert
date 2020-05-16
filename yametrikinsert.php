@@ -16,7 +16,15 @@ defined('_JEXEC') or die;
 class PlgSystemYametrikInsert extends CMSPlugin
 {
 
-	protected $app;
+	protected $app = null;
+	protected $db = null;
+
+	protected $_isAuthorizedAdmin = null;
+
+	public function __construct(&$subject, $config = array())
+	{
+		parent::__construct($subject, $config);
+	}
 
 	public function onAfterRender()
 	{
@@ -35,18 +43,14 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			return false;
 		}
 
-		if ($this->params->get('yametrik_admin', 0))
+		if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
 		{
-			$user = Factory::getUser();
-			if (
-				$user->authorise('core.login.admin')
-				|| !empty($this->app->input->get('customizer'))
-				|| !empty($this->app->input->get('jdb-live-preview'))
-				|| ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe')
-			)
-			{
-				return false;
-			}
+			return false;
+		}
+
+		if ($this->params->get('yametrik_admin', 0) && $this->isAuthorizedAdmin())
+		{
+			return false;
 		}
 
 		$yaParams = [
@@ -115,5 +119,52 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		$this->app->setBody($body);
 
 		return true;
+	}
+
+	protected function isAuthorizedAdmin()
+	{
+		if ($this->_isAuthorizedAdmin === null)
+		{
+			$db    = $this->db;
+			$admin = false;
+
+			// Check on site
+			if ($this->app->isClient('site'))
+			{
+				// Get sessions
+				$sessions = array();
+				foreach ($this->app->input->cookie->getArray() as $key => $value)
+				{
+					if (strlen($key) === 32 && strlen($value) === 32)
+					{
+						$sessions[] = $db->quote(trim($value));
+					}
+				}
+
+				// Find administrator session
+				if (!empty($sessions))
+				{
+					$query = $db->getQuery(true)
+						->select('userid')
+						->from($db->quoteName('#__session'))
+						->where($db->quoteName('session_id') . ' IN (' . implode(',', $sessions) . ')')
+						->where('time > '
+							. Factory::getDate('- ' . Factory::getConfig()->get('lifetime', 15) . 'minute')->toUnix())
+						->where('client_id = 1')
+						->where('guest = 0');
+					$admin = (!empty($db->setQuery($query)->loadResult()));
+				}
+			}
+
+			// Check on control panel
+            elseif ($this->app->isClient('administrator') && !Factory::getUser()->guest)
+			{
+				$admin = true;
+			}
+
+			$this->_isAuthorizedAdmin = $admin;
+		}
+
+		return $this->_isAuthorizedAdmin;
 	}
 }
