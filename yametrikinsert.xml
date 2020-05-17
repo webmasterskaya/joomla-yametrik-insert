@@ -9,6 +9,7 @@
     <authorUrl>https://webmasterskaya.xyz</authorUrl>
     <version>1.0.0-beta</version>
     <description>PLG_SYSTEM_YAMETRIKINSERT_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
     <languages folder="language">
         <language tag="en-GB">en-GB/en-GB.plg_system_yametrikinsert.ini</language>
         <language tag="en-GB">en-GB/en-GB.plg_system_yametrikinsert.sys.ini</language>
