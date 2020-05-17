@@ -17,11 +17,21 @@
         <language tag="ru-RU">ru-RU/ru-RU.plg_system_yametrikinsert.sys.ini</language>
     </languages>
     <files>
+        <folder>fields</folder>
         <filename plugin="yametrikinsert">yametrikinsert.php</filename>
     </files>
+    <media folder="media" destination="plg_system_yametrikinsert">
+        <folder>css</folder>
+    </media>
     <config>
         <fields name="params">
             <fieldset name="basic">
+                <field
+                        type="mediator"
+                        script="0"
+                        styles="1"
+                        addfieldpath="/plugins/system/yametrikinsert/fields"
+                />
                 <field
                         type="text"
                         name="yametrik_id"

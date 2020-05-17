@@ -1,0 +1,18 @@
+/**
+ * @package    Joomla - Yandex.Metrika insert
+ * @version    1.0.0-beta
+ * @author     Artem Vasilev - webmasterskaya.xyz
+ * @copyright  Copyright (c) 2018 - 2020 Webmasterskaya. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
+ * @link       https://webmasterskaya.xyz/
+ */
+
+#general .CodeMirror.CodeMirror-fullscreen {
+    width: 100%;
+}
+
+#general .CodeMirror {
+    height: 165px;
+    min-height: auto;
+    width: 760px;
+}
