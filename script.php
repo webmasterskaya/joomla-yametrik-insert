@@ -18,7 +18,7 @@ class plgSystemYaMetrikInsertInstallerScript
 		// Check compatible Joomla version
 		$jversion = new JVersion();
 
-		if (!$jversion->isCompatible('3.7'))
+		if (!$jversion->isCompatible('3.8.1'))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_YAMETRIKINSERT_WRONG_JOOMLA'), 'error');
 
