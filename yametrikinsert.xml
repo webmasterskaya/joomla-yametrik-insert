@@ -165,6 +165,7 @@
                         label="PLG_SYSTEM_YAMETRIKINSERT_BUILDER_LABEL"
                         description="PLG_SYSTEM_YAMETRIKINSERT_BUILDER_DESCRIPTION"
                         class="btn-group btn-group-yesno"
+                        showon="yametrik_admin:0"
                         default="1">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
