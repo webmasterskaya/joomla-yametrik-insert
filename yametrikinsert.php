@@ -194,10 +194,14 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		}
 
 		// Do not embed on preview page of page builder (supported YooTheme, SP:PB, JD:PB).
-		if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
+		if ($this->params->get('yametrik_builder', 1))
 		{
-			return false;
+			if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
+			{
+				return false;
+			}
 		}
+
 
 		// Do not embed for admin.
 		if ($this->params->get('yametrik_admin', 0) && $this->isAuthorizedAdmin())

@@ -161,6 +161,16 @@
                 </field>
                 <field
                         type="radio"
+                        name="yametrik_builder"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_BUILDER_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_BUILDER_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
                         name="yametrik_send_ip"
                         label="PLG_SYSTEM_YAMETRIKINSERT_SEND_IP_LABEL"
                         description="PLG_SYSTEM_YAMETRIKINSERT_SEND_IP_DESCRIPTION"
