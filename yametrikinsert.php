@@ -49,7 +49,16 @@ class PlgSystemYametrikInsert extends CMSPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	protected $_isAuthorizedAdmin = null;
+	private $_isAuthorizedAdmin = null;
+
+	/**
+	 * Is page PageBuilder.
+	 *
+	 * @var  boolean
+	 *
+	 * @since  1.0.0
+	 */
+	private $_isBuilder = null;
 
 	/**
 	 * Constructor.
@@ -95,6 +104,29 @@ class PlgSystemYametrikInsert extends CMSPlugin
 				0) ? $this->params->get('yametrik_accurateTrackBounce_delay', 15000) : false,
 			'childIframe'         => $this->params->get('yametrik_childIframe', 0) ? true : false,
 		];
+
+		// Bypass
+		if ($this->params->get('yametrik_bypass', 1) == 0)
+		{
+			$yaParams['ut'] = 'noindex';
+		}
+		else
+		{
+			if ($this->params->get('yametrik_bypass_admin', 1) == 1 && $this->params->get('yametrik_admin', 1) == 0 && $this->isAuthorizedAdmin())
+			{
+				$yaParams['ut'] = 'noindex';
+			}
+			else
+			{
+				if ($this->params->get('yametrik_bypass_builder', 1) == 1 && $this->params->get('yametrik_builder', 1) == 0 && $this->params->get('yametrik_bypass_admin', 1) == 0)
+				{
+					if ($this->isBuilder())
+					{
+						$yaParams['ut'] = 'noindex';
+					}
+				}
+			}
+		}
 
 		// Send client IP
 		if ($this->params->get('yametrik_send_ip', 0))
@@ -193,20 +225,19 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			return false;
 		}
 
-		// Do not embed on preview page of page builder (supported YooTheme, SP:PB, JD:PB).
-		if ($this->params->get('yametrik_builder', 1))
-		{
-			if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
-			{
-				return false;
-			}
-		}
-
-
 		// Do not embed for admin.
 		if ($this->params->get('yametrik_admin', 0) && $this->isAuthorizedAdmin())
 		{
 			return false;
+		}
+
+		// Do not embed on preview page of page builder (supported YooTheme, SP:PB, JD:PB).
+		if ($this->params->get('yametrik_builder', 1))
+		{
+			if ($this->isBuilder())
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -214,7 +245,6 @@ class PlgSystemYametrikInsert extends CMSPlugin
 
 	/**
 	 * Method to check  is visitor authorized in control panel.
-	 *
 	 * @return  bool True if authorized administrator, False if is not.
 	 *
 	 *
@@ -269,6 +299,30 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		}
 
 		return $this->_isAuthorizedAdmin;
+	}
+
+	/**
+	 * Method to check  is page PageBuilder
+	 * @return  bool True if is PageBuilder, False if is not.
+	 *
+	 *
+	 * @since      1.0.0
+	 */
+	protected function isBuilder()
+	{
+		if ($this->_isBuilder === null)
+		{
+			if (!empty($this->app->input->get('customizer')) || !empty($this->app->input->get('jdb-live-preview')) || ($this->app->input->getCmd('option') == 'com_sppagebuilder' && $this->app->input->getCmd('layout') == 'edit-iframe'))
+			{
+				$this->_isBuilder = true;
+			}
+			else
+			{
+				$this->_isBuilder = false;
+			}
+		}
+
+		return $this->_isBuilder;
 	}
 
 	/**

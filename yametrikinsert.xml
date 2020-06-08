@@ -203,6 +203,40 @@
                         class="alert alert-info"
                 />
             </fieldset>
+            <fieldset name="bypass" title="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_TITLE">
+                <field
+                        type="radio"
+                        name="yametrik_bypass"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_bypass_admin"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_ADMIN_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_ADMIN_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        showon="yametrik_admin:0[AND]yametrik_bypass:1"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_bypass_builder"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_BUILDER_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_BUILDER_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        showon="yametrik_builder:0[AND]yametrik_bypass:1[AND]yametrik_bypass_admin:0"
+                        default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
         </fields>
     </config>
 </extension>
