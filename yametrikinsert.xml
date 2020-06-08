@@ -203,7 +203,7 @@
                         class="alert alert-info"
                 />
             </fieldset>
-            <fieldset name="bypass" title="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_TITLE">
+            <fieldset name="bypass" label="PLG_SYSTEM_YAMETRIKINSERT_BYPASS_TITLE">
                 <field
                         type="radio"
                         name="yametrik_bypass"
