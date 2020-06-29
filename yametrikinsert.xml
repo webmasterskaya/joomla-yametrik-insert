@@ -181,6 +181,27 @@
                     <option value="0">JNO</option>
                 </field>
                 <field
+                        type="radio"
+                        name="yametrik_goal_ip"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_GOAL_IP_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_GOAL_IP_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        showon="yametrik_send_ip:1"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_goal_url"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_GOAL_URL_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_GOAL_URL_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
                         name="yametrik_js"
                         type="editor"
                         label="PLG_SYSTEM_YAMETRIKINSERT_JS_LABEL"

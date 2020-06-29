@@ -157,8 +157,17 @@ class PlgSystemYametrikInsert extends CMSPlugin
             })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
             ym(<?php echo $counter; ?>, "init", <?php echo json_encode($yaParams); ?>);
             window.goalSender = function (t, p, b) {
-                p = typeof p !== 'undefined' ? p : undefined;
+                p = typeof p !== 'object' ? {} : p;
                 b = typeof b !== 'undefined' ? b : undefined;
+
+				<?php if($this->params->get('yametrik_goal_ip', 0) && $this->params->get('yametrik_goal_ip', 0)): ?>
+                p['IP'] = '<?php echo $_SERVER['REMOTE_ADDR']; ?>';
+				<?php endif; ?>
+
+				<?php if($this->params->get('yametrik_goal_url', 0)): ?>
+                p['URL'] = document.location.href;
+				<?php endif; ?>
+
                 if (typeof ym == 'function') {
                     window.ym(<?php echo $counter; ?>, "reachGoal", t, p, b)
                 } else {
