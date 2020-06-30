@@ -261,7 +261,7 @@
         </fields>
     </config>
     <updateservers>
-        <server type="extension" priority="1" name="joomla-yametrik-insert">
+        <server type="extension" priority="1" name="yametrikinsert">
             https://webmasterskaya.xyz/updates?element=joomla-yametrik-insert
         </server>
     </updateservers>
