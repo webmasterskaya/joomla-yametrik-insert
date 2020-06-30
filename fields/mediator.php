@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla - Yandex.Metrika insert
- * @version    1.1.0
+ * @version    1.1.1
  * @author     Artem Vasilev - webmasterskaya.xyz
  * @copyright  Copyright (c) 2018 - 2020 Webmasterskaya. All rights reserved.
  * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
