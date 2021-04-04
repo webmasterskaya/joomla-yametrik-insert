@@ -141,6 +141,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		?>
         <!-- YaMetrikInsert plugin -->
         <script>
+            <?php if ($this->params->get('yametrik_js')!="") { ?>
             document.addEventListener("yacounter<?php echo $counter; ?>inited", function () {
                 try {
 					<?php echo $this->params->get('yametrik_js'); ?>
@@ -148,6 +149,19 @@ class PlgSystemYametrikInsert extends CMSPlugin
                     console.log(String(e))
                 }
             });
+            <?php } ?>
+            <?php if ($this->params->get('yametrik_delayed')==1)
+            {
+                ?>var fired = false;
+
+ 
+window.addEventListener('scroll', () => { 
+ if (fired === false) { 
+ fired = true; 
+  
+ setTimeout(() => { 
+            <?php } ;
+            ?>
             (function (m, e, t, r, i, k, a) {
                 m[i] = m[i] || function () {
                     (m[i].a = m[i].a || []).push(arguments)
@@ -188,6 +202,12 @@ class PlgSystemYametrikInsert extends CMSPlugin
                     }, 300);
                 }
             }
+            <?php if ($this->params->get('yametrik_delayed')==1)
+            { echo "}, 1000) 
+ } 
+}); 
+"; }
+            ?>
         </script>
         <noscript>
             <div><img src="https://mc.yandex.ru/watch/48641792" style="position:absolute; left:-9999px;" alt=""

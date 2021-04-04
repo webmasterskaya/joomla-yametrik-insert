@@ -39,6 +39,16 @@
                         description="PLG_SYSTEM_YAMETRIKINSERT_ID_DESCRIPTION"
                 />
                 <field
+                    type="radio"
+                    name="yametrik_delayed"
+                    label="Отложенная загрузка"
+                    description="Отложенная на несколько секунд загрузка через таймер"
+                    class="btn-group btn-group-yesno"
+                    default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+                </field>
+                <field
                         type="radio"
                         name="yametrik_webvisor"
                         label="PLG_SYSTEM_YAMETRIKINSERT_WEBVISOR_LABEL"
