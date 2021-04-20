@@ -41,12 +41,12 @@
                 <field
                     type="radio"
                     name="yametrik_delayed"
-                    label="Отложенная загрузка"
-                    description="Отложенная на несколько секунд загрузка через таймер"
+                    label="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_LABEL"
+                    description="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_DESCRIPTION"
                     class="btn-group btn-group-yesno"
                     default="0">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field
                         type="radio"
