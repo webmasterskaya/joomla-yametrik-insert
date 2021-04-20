@@ -49,6 +49,17 @@
                     <option value="0">JNO</option>
                 </field>
                 <field
+                        type="number"
+                        min="0"
+                        step="1"
+                        name="yametrik_delayed_sec"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_MSEC_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_MSEC_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="1000"
+                        showon="yametrik_delayed:1">
+                </field>
+                <field
                         type="radio"
                         name="yametrik_webvisor"
                         label="PLG_SYSTEM_YAMETRIKINSERT_WEBVISOR_LABEL"

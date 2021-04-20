@@ -146,7 +146,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
                 try {
 					<?php echo $this->params->get('yametrik_js'); ?>
                 } catch (e) {
-                    console.log(String(e))
+                    console.error(e)
                 }
             });
             <?php } ?>
@@ -203,7 +203,7 @@ window.addEventListener('scroll', () => {
                 }
             }
             <?php if ($this->params->get('yametrik_delayed')==1)
-            { echo "}, 1000) 
+            { echo "}, ".$this->params->get('yametrik_delayed_sec', 1000).") 
  } 
 }); 
 "; }
