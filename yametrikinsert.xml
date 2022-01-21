@@ -7,7 +7,7 @@
     <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
     <authorEmail>dev@webmasterskaya.xyz</authorEmail>
     <authorUrl>https://webmasterskaya.xyz</authorUrl>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <description>PLG_SYSTEM_YAMETRIKINSERT_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <languages folder="language">
@@ -37,6 +37,32 @@
                         name="yametrik_id"
                         label="PLG_SYSTEM_YAMETRIKINSERT_ID_LABEL"
                         description="PLG_SYSTEM_YAMETRIKINSERT_ID_DESCRIPTION"
+                />
+                <field
+                        type="radio"
+                        name="yametrik_position"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_POSITION_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_POSITION_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">PLG_SYSTEM_YAMETRIKINSERT_POSITION_TOP</option>
+                    <option value="0">PLG_SYSTEM_YAMETRIKINSERT_POSITION_BOTTOM</option>
+                </field>
+                <field
+                        type="radio"
+                        name="yametrik_debug"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_DEBUG_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_DEBUG_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="note"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_DEBUG_NOTE"
+                        class="alert alert-info"
+                        showon="yametrik_debug:1"
                 />
                 <field
                     type="radio"

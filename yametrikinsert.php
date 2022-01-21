@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla - Yandex.Metrika insert
- * @version    1.1.1
+ * @version    1.1.2
  * @author     Artem Vasilev - webmasterskaya.xyz
  * @copyright  Copyright (c) 2018 - 2020 Webmasterskaya. All rights reserved.
  * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
@@ -89,6 +89,29 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			return false;
 		}
 
+        $cur_domain = ltrim(trim(parse_url(JURI::root(), PHP_URL_HOST)), '.');
+
+        // Устанавливает cookie для режима отладки метрики
+        if($this->params->get('yametrik_debug', 0) == 1){
+	        $this->app->input->cookie->set(
+                    '_ym_debug',
+                    1,
+                    0,
+                    $this->app->get('cookie_path', '/'),
+                    '.'. $cur_domain,
+                    $this->app->isSSLConnection()
+            );
+        } else {
+	        $this->app->input->cookie->set(
+		        '_ym_debug',
+		        null,
+		        time() - 3600,
+		        $this->app->get('cookie_path', '/'),
+		        '.'. $cur_domain,
+		        $this->app->isSSLConnection()
+	        );
+        }
+
 		// Prepare array of params.
 		$yaParams = [
 			'triggerEvent'        => true,
@@ -141,7 +164,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		?>
         <!-- YaMetrikInsert plugin -->
         <script>
-            <?php if ($this->params->get('yametrik_js')!="") { ?>
+			<?php if ($this->params->get('yametrik_js') != "") { ?>
             document.addEventListener("yacounter<?php echo $counter; ?>inited", function () {
                 try {
 					<?php echo $this->params->get('yametrik_js'); ?>
@@ -149,78 +172,90 @@ class PlgSystemYametrikInsert extends CMSPlugin
                     console.error(e)
                 }
             });
-            <?php } ?>
-            <?php if ($this->params->get('yametrik_delayed')==1)
-            {
-                ?>var fired = false;
+			<?php } ?>
+			<?php if ($this->params->get('yametrik_delayed') == 1)
+			{
+			?>var fired = false;
 
- 
-window.addEventListener('scroll', () => { 
- if (fired === false) { 
- fired = true; 
-  
- setTimeout(() => { 
-            <?php } ;
-            ?>
-            (function (m, e, t, r, i, k, a) {
-                m[i] = m[i] || function () {
-                    (m[i].a = m[i].a || []).push(arguments)
-                };
-                m[i].l = 1 * new Date();
-                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-            })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-            ym(<?php echo $counter; ?>, "init", <?php echo json_encode($yaParams); ?>);
-            window.goalSender = function (t, p, b) {
-                p = typeof p !== 'object' ? {} : p;
-                b = typeof b !== 'undefined' ? b : undefined;
 
-				<?php if($this->params->get('yametrik_goal_ip', 0) && $this->params->get('yametrik_goal_ip', 0)): ?>
-                p['IP'] = '<?php echo $_SERVER['REMOTE_ADDR']; ?>';
-				<?php endif; ?>
+            window.addEventListener('scroll', () => {
+                if (fired === false) {
+                    fired = true;
 
-				<?php if($this->params->get('yametrik_goal_url', 0)): ?>
-                p['URL'] = document.location.href;
-				<?php endif; ?>
+                    setTimeout(() => {
+						<?php } ;
+						?>
+                        (function (m, e, t, r, i, k, a) {
+                            m[i] = m[i] || function () {
+                                (m[i].a = m[i].a || []).push(arguments)
+                            };
+                            m[i].l = 1 * new Date();
+                            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+                        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+                        ym(<?php echo $counter; ?>, "init", <?php echo json_encode($yaParams); ?>);
+                        window.goalSender = function (t, p, b) {
+                            p = typeof p !== 'object' ? {} : p;
+                            b = typeof b !== 'undefined' ? b : undefined;
 
-                if (typeof ym == 'function') {
-                    window.ym(<?php echo $counter; ?>, "reachGoal", t, p, b)
-                } else {
-                    window.setTimeout(function () {
-                        window.goalSender(t, p, b);
-                    }, 300);
-                }
-            };
-            window.hitSender = function (u, o) {
-                u = typeof u !== 'undefined' ? u : location.href;
-                o = typeof o !== 'undefined' ? o : [];
+							<?php if($this->params->get('yametrik_goal_ip', 0) && $this->params->get('yametrik_goal_ip', 0)): ?>
+                            p['IP'] = '<?php echo $_SERVER['REMOTE_ADDR']; ?>';
+							<?php endif; ?>
 
-                if (typeof ym == 'function') {
-                    window.ym(<?php echo $counter; ?>, "hit", u, o);
-                } else {
-                    window.setTimeout(function () {
-                        window.hitSender(u, o);
-                    }, 300);
-                }
-            }
-            <?php if ($this->params->get('yametrik_delayed')==1)
-            { echo "}, ".$this->params->get('yametrik_delayed_sec', 1000).") 
+							<?php if($this->params->get('yametrik_goal_url', 0)): ?>
+                            p['URL'] = document.location.href;
+							<?php endif; ?>
+
+                            if (typeof ym == 'function') {
+                                window.ym(<?php echo $counter; ?>, "reachGoal", t, p, b)
+                            } else {
+                                window.setTimeout(function () {
+                                    window.goalSender(t, p, b);
+                                }, 300);
+                            }
+                        };
+                        window.hitSender = function (u, o) {
+                            u = typeof u !== 'undefined' ? u : location.href;
+                            o = typeof o !== 'undefined' ? o : [];
+
+                            if (typeof ym == 'function') {
+                                window.ym(<?php echo $counter; ?>, "hit", u, o);
+                            } else {
+                                window.setTimeout(function () {
+                                    window.hitSender(u, o);
+                                }, 300);
+                            }
+                        }
+			<?php if ($this->params->get('yametrik_delayed') == 1)
+			{
+				echo "}, " . $this->params->get('yametrik_delayed_sec', 1000) . ") 
  } 
 }); 
-"; }
-            ?>
+";
+			}
+			?>
         </script>
         <noscript>
-            <div><img src="https://mc.yandex.ru/watch/48641792" style="position:absolute; left:-9999px;" alt=""
-                      no-handler=""/></div>
+            <div><img src="https://mc.yandex.ru/watch/<?php echo $counter; ?>" style="position:absolute; left:-9999px;"
+                      alt=""/></div>
         </noscript>
         <!-- /YaMetrikInsert plugin -->
 		<?php
 
 		$metrika = ob_get_clean();
 
-		// Embed the code before the closing tag </body>.
 		$body = $this->app->getBody();
-		$body = str_replace("</body>", $metrika . "</body>", $body);
+
+		switch ($this->params->get('yametrik_position', 0))
+		{
+			case 1:
+				// Вставляет код метрики после открывающего тега <body>
+				$body = preg_replace('/(<body[^<]*>)/is', '$1' . PHP_EOL . $metrika, $body, 1);
+				break;
+			default:
+				// Вставляет код метрики перед закрывающим тегом </body>
+				$body = str_replace("</body>", $metrika . PHP_EOL . "</body>", $body);
+				break;
+		}
 
 		$this->app->setBody($body);
 
