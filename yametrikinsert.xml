@@ -39,6 +39,16 @@
                         description="PLG_SYSTEM_YAMETRIKINSERT_ID_DESCRIPTION"
                 />
                 <field
+                        type="radio"
+                        name="yametrik_position"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_POSITION_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_POSITION_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">PLG_SYSTEM_YAMETRIKINSERT_POSITION_TOP</option>
+                    <option value="0">PLG_SYSTEM_YAMETRIKINSERT_POSITION_BOTTOM</option>
+                </field>
+                <field
                     type="radio"
                     name="yametrik_delayed"
                     label="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_LABEL"
