@@ -49,6 +49,22 @@
                     <option value="0">PLG_SYSTEM_YAMETRIKINSERT_POSITION_BOTTOM</option>
                 </field>
                 <field
+                        type="radio"
+                        name="yametrik_debug"
+                        label="PLG_SYSTEM_YAMETRIKINSERT_DEBUG_LABEL"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_DEBUG_DESCRIPTION"
+                        class="btn-group btn-group-yesno"
+                        default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        type="note"
+                        description="PLG_SYSTEM_YAMETRIKINSERT_DEBUG_NOTE"
+                        class="alert alert-info"
+                        showon="yametrik_debug:1"
+                />
+                <field
                     type="radio"
                     name="yametrik_delayed"
                     label="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_LABEL"

@@ -89,6 +89,29 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			return false;
 		}
 
+        $cur_domain = ltrim(trim(parse_url(JURI::root(), PHP_URL_HOST)), '.');
+
+        // Устанавливает cookie для режима отладки метрики
+        if($this->params->get('yametrik_debug', 0) == 1){
+	        $this->app->input->cookie->set(
+                    '_ym_debug',
+                    1,
+                    0,
+                    $this->app->get('cookie_path', '/'),
+                    '.'. $cur_domain,
+                    $this->app->isSSLConnection()
+            );
+        } else {
+	        $this->app->input->cookie->set(
+		        '_ym_debug',
+		        null,
+		        time() - 3600,
+		        $this->app->get('cookie_path', '/'),
+		        '.'. $cur_domain,
+		        $this->app->isSSLConnection()
+	        );
+        }
+
 		// Prepare array of params.
 		$yaParams = [
 			'triggerEvent'        => true,
@@ -212,8 +235,8 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			?>
         </script>
         <noscript>
-            <div><img src="https://mc.yandex.ru/watch/48641792" style="position:absolute; left:-9999px;" alt=""
-                      no-handler=""/></div>
+            <div><img src="https://mc.yandex.ru/watch/<?php echo $counter; ?>" style="position:absolute; left:-9999px;"
+                      alt=""/></div>
         </noscript>
         <!-- /YaMetrikInsert plugin -->
 		<?php
@@ -225,7 +248,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		switch ($this->params->get('yametrik_position', 0))
 		{
 			case 1:
-                // Вставляет код метрики после открывающего тега <body>
+				// Вставляет код метрики после открывающего тега <body>
 				$body = preg_replace('/(<body[^<]*>)/is', '$1' . PHP_EOL . $metrika, $body, 1);
 				break;
 			default:
