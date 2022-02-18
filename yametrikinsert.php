@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Joomla - Yandex.Metrika insert
- * @version    1.1.2
+ * @version    1.1.3
  * @author     Artem Vasilev - webmasterskaya.xyz
- * @copyright  Copyright (c) 2018 - 2020 Webmasterskaya. All rights reserved.
+ * @copyright  Copyright (c) 2018 - 2022 Webmasterskaya. All rights reserved.
  * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  * @link       https://webmasterskaya.xyz/
  */
@@ -89,44 +89,37 @@ class PlgSystemYametrikInsert extends CMSPlugin
 			return false;
 		}
 
-        $cur_domain = ltrim(trim(parse_url(JURI::root(), PHP_URL_HOST)), '.');
-
-        // Устанавливает cookie для режима отладки метрики
-        if($this->params->get('yametrik_debug', 0) == 1){
-	        $this->app->input->cookie->set(
-                    '_ym_debug',
-                    1,
-                    0,
-                    $this->app->get('cookie_path', '/'),
-                    '.'. $cur_domain,
-                    $this->app->isSSLConnection()
-            );
-        } else {
-	        $this->app->input->cookie->set(
-		        '_ym_debug',
-		        null,
-		        time() - 3600,
-		        $this->app->get('cookie_path', '/'),
-		        '.'. $cur_domain,
-		        $this->app->isSSLConnection()
-	        );
-        }
-
 		// Prepare array of params.
 		$yaParams = [
 			'triggerEvent'        => true,
-			'webvisor'            => $this->params->get('yametrik_webvisor', 0) ? true : false,
-			'clickmap'            => $this->params->get('yametrik_clickmap', 0) ? true : false,
-			'trackHash'           => $this->params->get('yametrik_trackHash', 0) ? true : false,
-			'trackLinks'          => $this->params->get('yametrik_trackLinks', 0) ? true : false,
-			'ecommerce'           => $this->params->get('yametrik_ecommerce',
-				0) ? $this->params->get('yametrik_ecommerce_container',
-				'dataLayer') : false,
-			'defer'               => $this->params->get('yametrik_defer', 0) ? false : true,
-			'accurateTrackBounce' => $this->params->get('yametrik_yametrik_accurateTrackBounce',
-				0) ? $this->params->get('yametrik_accurateTrackBounce_delay', 15000) : false,
-			'childIframe'         => $this->params->get('yametrik_childIframe', 0) ? true : false,
+			'webvisor'            => (bool) $this->params->get('yametrik_webvisor', 0),
+			'clickmap'            => (bool) $this->params->get('yametrik_clickmap', 0),
+			'trackHash'           => (bool) $this->params->get('yametrik_trackHash', 0),
+			'trackLinks'          => (bool) $this->params->get('yametrik_trackLinks', 0),
+			'defer'               => !$this->params->get('yametrik_defer', 0),
+			'childIframe'         => (bool) $this->params->get('yametrik_childIframe', 0),
 		];
+
+		switch ($this->params->get('yametrik_ecommerce', 0))
+		{
+			case 1:
+				$yaParams['ecommerce'] = $this->params->get('yametrik_ecommerce_container', 'dataLayer');
+				break;
+			default:
+				$yaParams['ecommerce'] = false;
+		}
+
+		switch ($this->params->get('yametrik_accurateTrackBounce', 1))
+		{
+			case 0:
+				$yaParams['accurateTrackBounce'] = false;
+				break;
+			case 2:
+				$yaParams['accurateTrackBounce'] = $this->params->get('yametrik_accurateTrackBounce_delay', 15000);
+				break;
+			default:
+				$yaParams['accurateTrackBounce'] = true;
+		}
 
 		// Bypass
 		if ($this->params->get('yametrik_bypass', 1) == 0)
@@ -152,7 +145,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 		}
 
 		// Send client IP
-		if ($this->params->get('yametrik_send_ip', 0))
+		if (!!$this->params->get('yametrik_send_ip', 0))
 		{
 			$yaParams['params']['ip'] = $_SERVER['REMOTE_ADDR'];
 		}
@@ -314,7 +307,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 	 *
 	 * @since      1.0.0
 	 *
-	 * @copyright  Copyright (c) 2018 - 2020 Septdir Workshop. All rights reserved.
+	 * @copyright  Copyright (c) 2018 - 2022 Septdir Workshop. All rights reserved.
 	 * @author     Septdir Workshop - www.septdir.com
 	 * @link       https://www.septdir.com/
 	 */
