@@ -7,7 +7,7 @@
     <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
     <authorEmail>dev@webmasterskaya.xyz</authorEmail>
     <authorUrl>https://webmasterskaya.xyz</authorUrl>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
     <description>PLG_SYSTEM_YAMETRIKINSERT_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <languages folder="language">
