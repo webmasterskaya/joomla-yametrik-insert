@@ -3,7 +3,7 @@
  * @package    Joomla - Yandex.Metrika insert
  * @version    1.1.3
  * @author     Artem Vasilev - webmasterskaya.xyz
- * @copyright  Copyright (c) 2018 - 2020 Webmasterskaya. All rights reserved.
+ * @copyright  Copyright (c) 2018 - 2022 Webmasterskaya. All rights reserved.
  * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  * @link       https://webmasterskaya.xyz/
  */
@@ -307,7 +307,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 	 *
 	 * @since      1.0.0
 	 *
-	 * @copyright  Copyright (c) 2018 - 2020 Septdir Workshop. All rights reserved.
+	 * @copyright  Copyright (c) 2018 - 2022 Septdir Workshop. All rights reserved.
 	 * @author     Septdir Workshop - www.septdir.com
 	 * @link       https://www.septdir.com/
 	 */
