@@ -29,12 +29,6 @@
         <fields name="params">
             <fieldset name="basic">
                 <field
-                        type="mediator"
-                        script="0"
-                        styles="1"
-                        addfieldpath="/plugins/system/yametrikinsert/fields"
-                />
-                <field
                         type="text"
                         name="yametrik_id"
                         label="PLG_SYSTEM_YAMETRIKINSERT_ID_LABEL"
