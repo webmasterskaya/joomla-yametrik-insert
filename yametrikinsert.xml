@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.9" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
     <name>PLG_SYSTEM_YAMETRIKINSERT</name>
     <author>Artem Vasilev - Webmasterskaya</author>
     <creationDate>24.04.2020</creationDate>
-    <copyright>Copyright (C) 2020 Webmasterskaya. All rights reserved.</copyright>
+    <copyright>Copyright (C) 2020 - 2025 Webmasterskaya. All rights reserved.</copyright>
     <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
     <authorEmail>dev@webmasterskaya.xyz</authorEmail>
     <authorUrl>https://webmasterskaya.xyz</authorUrl>
-    <version>1.1.3</version>
+    <version>__DEV__</version>
     <description>PLG_SYSTEM_YAMETRIKINSERT_DESCRIPTION</description>
+    <namespace path="src">Webmasterskaya\Plugin\System\YandexMetrika</namespace>
     <scriptfile>script.php</scriptfile>
     <languages folder="language">
         <language tag="en-GB">en-GB/en-GB.plg_system_yametrikinsert.ini</language>
@@ -18,7 +19,8 @@
     </languages>
     <files>
         <folder>fields</folder>
-        <filename plugin="yametrikinsert">yametrikinsert.php</filename>
+        <folder>services</folder>
+        <folder plugin="yametrikinsert">src</folder>
     </files>
     <media folder="media" destination="plg_system_yametrikinsert">
         <folder>css</folder>
