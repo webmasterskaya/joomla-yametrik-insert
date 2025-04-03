@@ -19,12 +19,12 @@ class JFormFieldMediator extends FormField
 
 	protected function getInput()
 	{
-		if ((int) $this->element['styles'] == true)
+		if ((int)$this->element['styles'])
 		{
 			HTMLHelper::_('stylesheet', 'plg_system_yametrikinsert/adminstyle.css', array('version' => 'auto', 'relative' => true));
 		}
 
-		if ((int) $this->element['script'] == true)
+		if ((int)$this->element['script'])
 		{
 			HTMLHelper::_('script', 'plg_system_yametrikinsert/adminscript.js', array('version' => 'auto', 'relative' => true));
 		}

@@ -11,6 +11,7 @@
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 
 defined('_JEXEC') or die;
 
@@ -63,7 +64,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject
+	 * @param   object|DispatcherInterface  &$subject
 	 * @param   array    $config
 	 *
 	 *
@@ -166,66 +167,46 @@ class PlgSystemYametrikInsert extends CMSPlugin
                 }
             });
 			<?php } ?>
-			<?php if ($this->params->get('yametrik_delayed') == 1)
-			{
-			?>var fired = false;
+            (function (m, e, t, r, i, k, a) {
+                m[i] = m[i] || function () {
+                    (m[i].a = m[i].a || []).push(arguments)
+                };
+                m[i].l = 1 * new Date();
+                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+            })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+            ym(<?php echo $counter; ?>, "init", <?php echo json_encode($yaParams); ?>);
+            window.goalSender = function (t, p, b) {
+                p = typeof p !== 'object' ? {} : p;
+                b = typeof b !== 'undefined' ? b : undefined;
 
+                <?php if($this->params->get('yametrik_goal_ip', 0) && $this->params->get('yametrik_goal_ip', 0)): ?>
+                p['IP'] = '<?php echo $_SERVER['REMOTE_ADDR']; ?>';
+                <?php endif; ?>
 
-            window.addEventListener('scroll', () => {
-                if (fired === false) {
-                    fired = true;
+                <?php if($this->params->get('yametrik_goal_url', 0)): ?>
+                p['URL'] = document.location.href;
+                <?php endif; ?>
 
-                    setTimeout(() => {
-						<?php } ;
-						?>
-                        (function (m, e, t, r, i, k, a) {
-                            m[i] = m[i] || function () {
-                                (m[i].a = m[i].a || []).push(arguments)
-                            };
-                            m[i].l = 1 * new Date();
-                            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-                        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-                        ym(<?php echo $counter; ?>, "init", <?php echo json_encode($yaParams); ?>);
-                        window.goalSender = function (t, p, b) {
-                            p = typeof p !== 'object' ? {} : p;
-                            b = typeof b !== 'undefined' ? b : undefined;
+                if (typeof ym == 'function') {
+                    window.ym(<?php echo $counter; ?>, "reachGoal", t, p, b)
+                } else {
+                    window.setTimeout(function () {
+                        window.goalSender(t, p, b);
+                    }, 300);
+                }
+            };
+            window.hitSender = function (u, o) {
+                u = typeof u !== 'undefined' ? u : location.href;
+                o = typeof o !== 'undefined' ? o : [];
 
-							<?php if($this->params->get('yametrik_goal_ip', 0) && $this->params->get('yametrik_goal_ip', 0)): ?>
-                            p['IP'] = '<?php echo $_SERVER['REMOTE_ADDR']; ?>';
-							<?php endif; ?>
-
-							<?php if($this->params->get('yametrik_goal_url', 0)): ?>
-                            p['URL'] = document.location.href;
-							<?php endif; ?>
-
-                            if (typeof ym == 'function') {
-                                window.ym(<?php echo $counter; ?>, "reachGoal", t, p, b)
-                            } else {
-                                window.setTimeout(function () {
-                                    window.goalSender(t, p, b);
-                                }, 300);
-                            }
-                        };
-                        window.hitSender = function (u, o) {
-                            u = typeof u !== 'undefined' ? u : location.href;
-                            o = typeof o !== 'undefined' ? o : [];
-
-                            if (typeof ym == 'function') {
-                                window.ym(<?php echo $counter; ?>, "hit", u, o);
-                            } else {
-                                window.setTimeout(function () {
-                                    window.hitSender(u, o);
-                                }, 300);
-                            }
-                        }
-			<?php if ($this->params->get('yametrik_delayed') == 1)
-			{
-				echo "}, " . $this->params->get('yametrik_delayed_sec', 1000) . ") 
- } 
-}); 
-";
-			}
-			?>
+                if (typeof ym == 'function') {
+                    window.ym(<?php echo $counter; ?>, "hit", u, o);
+                } else {
+                    window.setTimeout(function () {
+                        window.hitSender(u, o);
+                    }, 300);
+                }
+            }
         </script>
         <noscript>
             <div><img src="https://mc.yandex.ru/watch/<?php echo $counter; ?>" style="position:absolute; left:-9999px;"
