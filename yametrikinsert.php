@@ -11,6 +11,7 @@
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 
 defined('_JEXEC') or die;
 
@@ -63,7 +64,7 @@ class PlgSystemYametrikInsert extends CMSPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject
+	 * @param   object|DispatcherInterface  &$subject
 	 * @param   array    $config
 	 *
 	 *
