@@ -8,6 +8,9 @@
  * @link       https://webmasterskaya.xyz/
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die;
 
 class plgSystemYaMetrikInsertInstallerScript
@@ -20,14 +23,16 @@ class plgSystemYaMetrikInsertInstallerScript
 
 		if (!$jversion->isCompatible('3.8.1'))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_YAMETRIKINSERT_WRONG_JOOMLA'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_YAMETRIKINSERT_WRONG_JOOMLA'), 'error');
 
 			return false;
 		}
+
+        return true;
 	}
 
 	function postflight($type, $parent)
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('PLG_SYSTEM_YAMETRIKINSERT_WELCOME_MESSAGE'), 'notice');
+		Factory::getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_YAMETRIKINSERT_WELCOME_MESSAGE'), 'notice');
 	}
 }
