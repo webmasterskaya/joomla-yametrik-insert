@@ -65,27 +65,6 @@
                         showon="yametrik_debug:1"
                 />
                 <field
-                    type="radio"
-                    name="yametrik_delayed"
-                    label="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_LABEL"
-                    description="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_DESCRIPTION"
-                    class="btn-group btn-group-yesno"
-                    default="0">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
-                </field>
-                <field
-                        type="number"
-                        min="0"
-                        step="1"
-                        name="yametrik_delayed_sec"
-                        label="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_MSEC_LABEL"
-                        description="PLG_SYSTEM_YAMETRIKINSERT_DELAYED_MSEC_DESCRIPTION"
-                        class="btn-group btn-group-yesno"
-                        default="1000"
-                        showon="yametrik_delayed:1">
-                </field>
-                <field
                         type="radio"
                         name="yametrik_webvisor"
                         label="PLG_SYSTEM_YAMETRIKINSERT_WEBVISOR_LABEL"
